@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import AddContact from './components/AddContact'
+import AllContacts from './components/AllContacts'
+import Search from './components/Search'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -31,34 +34,21 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-
-      <form onSubmit={handleAdd}>
-        <p>
-          <strong>Search: </strong>
-          <input type="text" placeholder="Search for a person" value={search} 
-            onChange={e => {
-              setSearch(e.target.value); 
-            }}
-          />
-        </p>
-        <h3>Add a New Contact</h3>
-        <div>
-          Name: <input type="text" value={newName} onChange={e => setNewName(e.target.value)} />
-        </div>
-        <div>
-          Number: <input type="text" value={number} onChange={e => setNumber(e.target.value)} />
-        </div>
-        <div>
-          <button type="submit">Add</button>
-        </div>
-      </form>
-
+      <Search 
+        search={search}
+        setSearch={setSearch}
+      />
+      <AddContact 
+        handleAdd = {handleAdd}
+        newName={newName} 
+        setNewName={setNewName} 
+        number={number}
+        setNumber={setNumber}
+      />
       <h2>Numbers</h2>
-      {
-        persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
-          .map(person => <p key={person.name}>{person.name} {person.number}</p>)
-      }
-      
+      <AllContacts 
+        persons={persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))}
+      />      
     </div>
   )
 }

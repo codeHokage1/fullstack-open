@@ -1,15 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AddContact from './components/AddContact'
 import AllContacts from './components/AllContacts'
 import Search from './components/Search'
 
+import axios from 'axios';
+
 const App = () => {
-  const [persons, setPersons] = useState([
-    { 
-      name: 'Arto Hellas', 
-      number: "040-1234567"
-    }
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [number, setNumber] = useState('')
 
@@ -31,6 +28,12 @@ const App = () => {
     setNumber('');
   }
 
+  useEffect(() => {
+    axios.get('http://localhost:3050/persons')
+          .then((res) => {
+            setPersons(res.data);
+          })
+  }, [])
   return (
     <div>
       <h2>Phonebook</h2>

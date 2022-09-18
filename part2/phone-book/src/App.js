@@ -25,7 +25,14 @@ const App = () => {
               setPersons(persons.concat(newPerson));
             })
     } else {
-      alert(`${newName} is already added to the phonebook`);
+      if(window.confirm(`${foundItem.name} is already added to the phonebook, replace the old number with a new one?`)){
+        const updatedPerson = {...foundItem, number: number}
+        personService.update(foundItem.id, updatedPerson)
+            .then(newPerson => {
+              setPersons(persons.map(person => person.id === newPerson.id ? newPerson : person))
+            })
+      }
+
     }
     setNewName('');
     setNumber('');

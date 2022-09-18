@@ -1,3 +1,4 @@
+import './App.css'
 import { useEffect, useState } from 'react'
 import AddContact from './components/AddContact'
 import AllContacts from './components/AllContacts'
@@ -9,6 +10,7 @@ const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [number, setNumber] = useState('')
+  const [notification, setNotification] = useState('')
 
   const [search, setSearch] = useState('')
 
@@ -19,11 +21,15 @@ const App = () => {
       const newContact = {
         name: newName,
         number: number
-      } 
+      }
       personService.create(newContact)
             .then(newPerson => {
               setPersons(persons.concat(newPerson));
             })
+      setNotification(`Added ${newContact.name}`);
+      setTimeout(() => {
+        setNotification('')
+      }, 3000)
     } else {
       if(window.confirm(`${foundItem.name} is already added to the phonebook, replace the old number with a new one?`)){
         const updatedPerson = {...foundItem, number: number}
@@ -58,6 +64,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      {
+        notification && <p className='notify'>{notification}</p>
+      }
       <Search 
         search={search}
         setSearch={setSearch}

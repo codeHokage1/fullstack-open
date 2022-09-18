@@ -1,5 +1,5 @@
-import axios from 'axios'
-const baseUrl = 'http://localhost:3050/persons'
+import axios from 'axios';
+const baseUrl = 'http://localhost:3050/persons';
 
 const getAll = () => {
   const request = axios.get(baseUrl)

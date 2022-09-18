@@ -37,8 +37,13 @@ const App = () => {
             .then(newPerson => {
               setPersons(persons.map(person => person.id === newPerson.id ? newPerson : person))
             })
+            .catch(err => {
+              setNotification(`Information of ${foundItem.name} has already been removed from server`);
+              setTimeout(() => {
+                setNotification('')
+              }, 3000)
+            })
       }
-
     }
     setNewName('');
     setNumber('');
@@ -65,7 +70,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       {
-        notification && <p className='notify'>{notification}</p>
+        notification && <p className={notification.includes('Added') ? 'add-success' : 'error'}>{notification}</p>
       }
       <Search 
         search={search}

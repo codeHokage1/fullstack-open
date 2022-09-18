@@ -3,7 +3,7 @@ import AddContact from './components/AddContact'
 import AllContacts from './components/AllContacts'
 import Search from './components/Search'
 
-import axios from 'axios';
+import personService from './services/persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -20,10 +20,10 @@ const App = () => {
         name: newName,
         number: number
       } 
-      axios.post("http://localhost:3050/persons", newContact)
-            .then(res => {
-              setPersons(persons.concat(res.data));
-            })   
+      personService.create(newContact)
+            .then(newPerson => {
+              setPersons(persons.concat(newPerson));
+            })
     } else {
       alert(`${newName} is already added to the phonebook`);
     }
@@ -32,9 +32,9 @@ const App = () => {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:3050/persons')
-          .then((res) => {
-            setPersons(res.data);
+    personService.getAll()
+          .then(persons => {
+            setPersons(persons);
           })
   }, [])
   return (

@@ -31,6 +31,17 @@ const App = () => {
     setNumber('');
   }
 
+
+  const handleDelete = personToDelete => {
+    if(window.confirm(`Delete ${personToDelete.name} ?`)){
+      personService.deleteContact(personToDelete.id)
+      .then(deletedPerson => {
+        setPersons(persons.filter(person => person.id !== personToDelete.id));
+      })
+    }
+  }
+
+
   useEffect(() => {
     personService.getAll()
           .then(persons => {
@@ -54,6 +65,7 @@ const App = () => {
       <h2>Numbers</h2>
       <AllContacts 
         persons={persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))}
+        handleDelete={handleDelete}
       />      
     </div>
   )

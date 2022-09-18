@@ -28,9 +28,9 @@ const SingleCountryFull = ({country}) => {
         {
           weather.main ? (
                       <>
-                        <p>Temperature: {weather.main.temp ? weather.main.temp : 'Loading Value...'} </p>
+                        <p>Temperature: {weather.main.temp} </p>
                         <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt="" />
-                        <p>Wind: {weather.wind.speed ? weather.wind.speed : 'Loading Value...'}m/s</p>
+                        <p>Wind: {weather.wind.speed}m/s</p>
                       </>
                     ) 
                     : (<p>Loading weather details ...</p>)

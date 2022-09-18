@@ -18,7 +18,7 @@ function App() {
   return (
     <div>
       <p>
-        <strong>Find Countries:</strong>
+        <strong>Find Countries: </strong>
         <input type="text" value={search} onChange={e => setSearch(e.target.value)} />
       </p>
       {

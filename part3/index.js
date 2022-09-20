@@ -48,6 +48,8 @@
 const express = require('express');
 const app = express();
 
+app.use(express.json())
+
 let notes = [
     {
       id: 1,
@@ -74,6 +76,46 @@ app.get('/', (req, res) => {
 })
 app.get("/notes", (req, res) => {
     res.json(notes);
+})
+
+app.get("/notes/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const note = notes.find(note => note.id === id);
+    if(note){
+        res.json(note);
+    } else {
+        res.status(404).end();
+    }
+})
+
+app.post("/notes", (req, res) => {
+    const maxId = notes.length > 0 ? Math.max(...notes.map(note => note.id)) : 0;
+    const note = req.body;
+
+    if(!note.content){
+        return res.status(400).json({
+            error: "content is missing in request body"
+        })
+    }
+
+    const newNote = {
+        id: maxId + 1,
+        content: note.content,
+        date: new Date(),
+        important: note.important || false,
+    }
+
+    notes = notes.concat(newNote);
+    res.json({
+        message: "Note created",
+        note: newNote
+    })
+})
+
+app.delete("/notes/:id", (req, res) => {
+    const id = Number(req.params.id);
+    notes = notes.filter(note => note.id !== id);
+    res.status(204).end();
 })
 
 const PORT = 3070;
